@@ -1,7 +1,10 @@
 <template>
    <loading v-if="isLoading"></loading>
    <div v-else>
-      <h1 class="h1"><i class="bi bi-person me-2"></i>{{pageTitle}}</h1>
+      <div class="d-flex justify-content-between align-items-center border-bottom mb-4">
+         <h1 class="h1"><i class="bi bi-people me-2"></i>{{pageTitle}}</h1>
+         <router-link to="/users/new" class="btn btn-primary">New user</router-link>
+      </div>
       <table class="table table-bordered table-hover table-striped" v-if="users.length">
          <thead>
          <tr>
@@ -16,12 +19,17 @@
          <tbody>
          <tr v-for="(user, index) in users" :key="user.id">
             <td class="text-center">{{index + 1}}</td>
-            <td>{{user.name}}</td>
+            <td>
+               <router-link :to="{name: 'showUser', params: {id: user.id}}">{{user.name}}</router-link>
+            </td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td>{{user.company.name}}</td>
             <td class="text-center">
                <div class="btn-group btn-group-sm">
+                  <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary" title="show">
+                     <i class="bi bi-eye"></i>
+                  </router-link>
                   <button type="button" class="btn btn-outline-primary" title="edit">
                      <i class="bi bi-pencil"></i>
                   </button>
