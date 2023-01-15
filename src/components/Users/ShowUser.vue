@@ -23,9 +23,7 @@
             <p><span>Email:</span> <b class="text-muted">{{user.email}}</b></p>
             <p><span>Phone:</span> <b class="text-muted">{{user.phone}}</b></p>
             <p><span>Website:</span> <b class="text-muted">{{user.website}}</b></p>
-            <p><span>Address:</span> <b class="text-muted">{{user.address.city}} - {{user.address.street}} -
-               {{user.address.suite}}</b></p>
-            <p><span>Company:</span> <b class="text-muted">{{user.company.name}}</b></p>
+            <p><span>Address:</span> <b class="text-muted">{{user.address}}</b></p>
          </div>
       </div>
       <items-not-found v-else></items-not-found>

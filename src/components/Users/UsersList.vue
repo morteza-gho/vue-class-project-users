@@ -15,7 +15,6 @@
             <th>Name</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Company</th>
             <th>Action</th>
          </tr>
          </thead>
@@ -23,11 +22,10 @@
          <tr v-for="(user, index) in users" :key="user.id">
             <td class="text-center">{{index + 1}}</td>
             <td>
-               <router-link :to="{name: 'showUser', params: {id: user.id}}">{{user.name}}</router-link>
+               <router-link :to="{name: 'showUser', params: {id: user.id}}">{{user.name + ' ' + user.family}}</router-link>
             </td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.company.name}}</td>
             <td class="text-center">
                <div class="btn-group btn-group-sm">
                   <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary" title="show">
