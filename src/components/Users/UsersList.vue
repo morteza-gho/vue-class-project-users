@@ -22,19 +22,22 @@
          <tr v-for="(user, index) in users" :key="user.id">
             <td class="text-center">{{index + 1}}</td>
             <td>
-               <router-link :to="{name: 'showUser', params: {id: user.id}}">{{user.name + ' ' + user.family}}</router-link>
+               <router-link :to="{name: 'showUser', params: {id: user.id}}">{{user.name + ' ' + user.family}}
+               </router-link>
             </td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td class="text-center">
                <div class="btn-group btn-group-sm">
-                  <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary" title="show">
+                  <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary"
+                               title="show">
                      <i class="bi bi-eye"></i>
                   </router-link>
-                  <router-link :to="{name: 'editUser', params: {id: user.id}}" class="btn btn-outline-primary" title="edit">
+                  <router-link :to="{name: 'editUser', params: {id: user.id}}" class="btn btn-outline-primary"
+                               title="edit">
                      <i class="bi bi-pencil"></i>
                   </router-link>
-                  <button type="button" class="btn btn-outline-danger" title="delete">
+                  <button type="button" class="btn btn-outline-danger" title="delete" @click="deleteUser(user.id)">
                      <i class="bi bi-trash"></i>
                   </button>
                </div>
@@ -75,6 +78,17 @@
                this.isLoading = false;
                alert(err.message)
             })
+         },
+         deleteUser(id) {
+            if (window.confirm('Are you sure to delete this User?')) {
+               axios.delete(BASE_URL + `/users/${id}`).then(res => {
+                  const userIndex = this.users.findIndex(x => x.id === id);
+                  this.users.splice(userIndex, 1);
+                  // alert('user has been deleted successfully');
+               }, (err) => {
+                  alert(err.message);
+               })
+            }
          }
       }
    }
