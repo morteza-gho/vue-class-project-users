@@ -3,7 +3,10 @@
    <div v-else>
       <div class="d-flex justify-content-between align-items-center border-bottom mb-4">
          <h1 class="h1"><i class="bi bi-people me-2"></i>{{pageTitle}}</h1>
-         <router-link to="/users/new" class="btn btn-primary">New user</router-link>
+         <router-link :to="{name: 'newUser'}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            New user
+         </router-link>
       </div>
       <table class="table table-bordered table-hover table-striped" v-if="users.length">
          <thead>
@@ -30,9 +33,9 @@
                   <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary" title="show">
                      <i class="bi bi-eye"></i>
                   </router-link>
-                  <button type="button" class="btn btn-outline-primary" title="edit">
+                  <router-link :to="{name: 'editUser', params: {id: user.id}}" class="btn btn-outline-primary" title="edit">
                      <i class="bi bi-pencil"></i>
-                  </button>
+                  </router-link>
                   <button type="button" class="btn btn-outline-danger" title="delete">
                      <i class="bi bi-trash"></i>
                   </button>
