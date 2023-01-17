@@ -66,7 +66,6 @@
 <script>
    import axios from "axios";
    import {BASE_URL} from "../../Constants";
-   import {uuid} from "../../functions";
 
    export default {
       name: "EditUser",
@@ -88,7 +87,7 @@
                this.formData = res.data;
             }, (err) => {
                this.isLoading = false;
-               alert(err.message)
+               this.$toast.error(err.message);
             })
          },
 
@@ -96,10 +95,11 @@
             this.isLoading = true;
             axios.put(BASE_URL + `/users/${this.formData.id}`, this.formData).then(res => {
                this.isLoading = false;
+               this.$toast.success('User was updated successfully')
                this.$router.push('/users'); // redirect to users list
             }, (err) => {
                this.isLoading = false;
-               alert(err.measure);
+               this.$toast.error(err.message);
             })
 
          }

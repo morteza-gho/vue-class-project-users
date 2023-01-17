@@ -82,10 +82,12 @@
             this.isLoading = true;
             axios.post(BASE_URL + '/users', data).then(res => {
                this.isLoading = false;
+               this.$toast.success('User was added successfully')
                this.$router.push('/users'); // redirect to users list
             }, (err) => {
                this.isLoading = false;
-               alert(err.measure);
+               // this.$toast.error('An error accord on Add User');
+               this.$toast.error(err.message);
             })
          }
       }

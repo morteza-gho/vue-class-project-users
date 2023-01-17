@@ -84,9 +84,10 @@
                axios.delete(BASE_URL + `/users/${id}`).then(res => {
                   const userIndex = this.users.findIndex(x => x.id === id);
                   this.users.splice(userIndex, 1);
-                  // alert('user has been deleted successfully');
+                  this.$toast.success('User was deleted successfully')
                }, (err) => {
-                  alert(err.message);
+                  // this.$toast.error('An error accord on Delete User');
+                  this.$toast.error(err.message);
                })
             }
          }
