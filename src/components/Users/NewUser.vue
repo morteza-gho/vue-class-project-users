@@ -1,55 +1,62 @@
 <template>
    <div class="col-md-6 col-12">
-      <form novalidate @submit.prevent="submitForm">
+      <Form novalidate @submit="submitForm" :validation-schema="userSchema">
 
          <div class="row">
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="username" class="form-label">username</label>
-                  <input type="text" class="form-control" id="username" v-model="formData.username"
-                         placeholder="Enter Username">
+                  <label class="form-label">username</label>
+                  <Field type="text" class="form-control" name="username"
+                         placeholder="Enter Username"/>
+                  <ErrorMessage name="username" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="email" class="form-label">email</label>
-                  <input type="text" class="form-control" id="email" v-model="formData.email"
-                         placeholder="Enter email">
+                  <label class="form-label">email</label>
+                  <Field type="text" class="form-control" name="email"
+                         placeholder="Enter email"/>
+                  <ErrorMessage name="email" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="name" class="form-label">name</label>
-                  <input type="text" class="form-control" id="name" v-model="formData.name"
-                         placeholder="Enter name">
+                  <label class="form-label">name</label>
+                  <Field type="text" class="form-control" name="name"
+                         placeholder="Enter name"/>
+                  <ErrorMessage name="name" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="family" class="form-label">family</label>
-                  <input type="text" class="form-control" id="family" v-model="formData.family"
-                         placeholder="Enter family">
+                  <label class="form-label">family</label>
+                  <Field type="text" class="form-control" name="family"
+                         placeholder="Enter family"/>
+                  <ErrorMessage name="family" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="phone" class="form-label">phone</label>
-                  <input type="text" class="form-control" id="phone" v-model="formData.phone"
-                         placeholder="Enter phone">
+                  <label class="form-label">phone</label>
+                  <Field type="text" class="form-control" name="phone"
+                         placeholder="Enter phone"/>
+                  <ErrorMessage name="phone" class="text-danger"/>
                </div>
             </div>
             <div class="col-md-6 col-12">
                <div class="mb-3">
-                  <label for="website" class="form-label">website</label>
-                  <input type="text" class="form-control" id="website" v-model="formData.website"
-                         placeholder="Enter website">
+                  <label class="form-label">website</label>
+                  <Field type="text" class="form-control" name="website"
+                         placeholder="Enter website"/>
+                  <ErrorMessage name="website" class="text-danger"/>
                </div>
             </div>
             <div class="col-12">
                <div class="mb-3">
-                  <label for="address" class="form-label">address</label>
-                  <textarea rows="4" class="form-control" id="address" v-model="formData.address"
-                            placeholder="Enter address"></textarea>
+                  <label class="form-label">address</label>
+                  <Field rows="4" class="form-control" name="address"
+                         placeholder="Enter address"/>
+                  <ErrorMessage name="address" class="text-danger"/>
                </div>
             </div>
          </div>
@@ -59,7 +66,7 @@
             Submit
          </button>
 
-      </form>
+      </Form>
    </div>
 </template>
 
@@ -67,18 +74,25 @@
    import axios from "axios";
    import {BASE_URL} from "../../Constants";
    import {uuid} from "../../functions";
+   import {Form, Field, ErrorMessage} from 'vee-validate';
+   import {userSchema} from "./schemaValidations/userSchema";
 
    export default {
       name: "NewUser",
+      components: {Form, Field, ErrorMessage},
       data() {
          return {
             isLoading: false,
-            formData: {}
+            formData: {},
+            userSchema
          }
       },
+
       methods: {
-         submitForm() {
-            const data = Object.assign(this.formData, {id: uuid()})
+
+         submitForm(values) {
+            const data = Object.assign(values, {id: uuid()})
+            // console.log(values);
             this.isLoading = true;
             axios.post(BASE_URL + '/users', data).then(res => {
                this.isLoading = false;
@@ -88,7 +102,7 @@
                this.isLoading = false;
                // this.$toast.error('An error accord on Add User');
                this.$toast.error(err.message);
-            })
+            });
          }
       }
    }
