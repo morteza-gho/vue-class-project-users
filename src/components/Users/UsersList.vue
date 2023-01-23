@@ -28,7 +28,7 @@
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
             <td class="text-center">
-               <div class="btn-group btn-group-sm">
+               <!--<div class="btn-group btn-group-sm">
                   <router-link :to="{name: 'showUser', params: {id: user.id}}" class="btn btn-outline-secondary"
                                title="show">
                      <i class="bi bi-eye"></i>
@@ -40,7 +40,8 @@
                   <button type="button" class="btn btn-outline-danger" title="delete" @click="deleteUser(user.id)">
                      <i class="bi bi-trash"></i>
                   </button>
-               </div>
+               </div>-->
+               <table-actions :data="user" @table-action-callback="onTableActionCallback"></table-actions>
             </td>
          </tr>
          </tbody>
@@ -54,10 +55,11 @@
    import {BASE_URL} from "../../Constants";
    import Loading from "../Global/Loading.vue";
    import ItemsNotFound from "../Global/ItemsNotFound.vue";
+   import TableActions from "../Global/TableActions.vue";
 
    export default {
       name: "UsersList",
-      components: {ItemsNotFound, Loading},
+      components: {TableActions, ItemsNotFound, Loading},
       data() {
          return {
             pageTitle: 'Users List',
@@ -90,7 +92,24 @@
                   this.$toast.error(err.message);
                })
             }
-         }
+         }, // deleteUser
+         onTableActionCallback(res) {
+            console.log(res);
+            switch (res.type) {
+               case 'delete': {
+                  this.deleteUser(res.data.id);
+               }
+                  break;
+               case 'show': {
+                  this.$router.push({name: 'showUser', params: {id: res.data.id}})
+               }
+                  break;
+               case 'edit': {
+                  this.$router.push({name: 'editUser', params: {id: res.data.id}})
+               }
+                  break;
+            }
+         } // onTableActionCallback
       }
    }
 </script>
