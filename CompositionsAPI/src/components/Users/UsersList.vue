@@ -56,61 +56,69 @@
    import Loading from "../Global/Loading.vue";
    import ItemsNotFound from "../Global/ItemsNotFound.vue";
    import TableActions from "../Global/TableActions.vue";
+   import {ref, onMounted} from 'vue'
+   import {useToast} from "vue-toast-notification";
+   import {useRouter} from "vue-router";
 
    export default {
       name: "UsersList",
       components: {TableActions, ItemsNotFound, Loading},
-      data() {
-         return {
-            pageTitle: 'Users List',
-            users: [],
-            isLoading: false
-         }
-      },
-      created() {
-         this.getUsers();
-      },
-      methods: {
-         getUsers() {
-            this.isLoading = true;
+      setup() {
+
+         const pageTitle = ref('Users List');
+         const isLoading = ref(false);
+         const users = ref([]);
+
+         const router = useRouter()
+         const $toast = useToast();
+
+         onMounted(() => {
+            getUsers();
+         });
+
+         const getUsers = () => {
+            isLoading.value = true;
             axios.get(BASE_URL + '/users').then(res => {
-               this.isLoading = false;
-               this.users = res.data;
+               isLoading.value = false;
+               users.value = res.data;
             }, (err) => {
-               this.isLoading = false;
+               isLoading.value = false;
                alert(err.message)
             })
-         },
-         deleteUser(id) {
+         };
+
+         const deleteUser = (id) => {
             if (window.confirm('Are you sure to delete this User?')) {
                axios.delete(BASE_URL + `/users/${id}`).then(res => {
-                  const userIndex = this.users.findIndex(x => x.id === id);
-                  this.users.splice(userIndex, 1);
-                  this.$toast.success('User was deleted successfully')
+                  const userIndex = users.value.findIndex(x => x.id === id);
+                  users.value.splice(userIndex, 1);
+                  $toast.success('User was deleted successfully')
                }, (err) => {
-                  // this.$toast.error('An error accord on Delete User');
-                  this.$toast.error(err.message);
+                  $toast.error(err.message);
                })
             }
-         }, // deleteUser
-         onTableActionCallback(res) {
-            console.log(res);
+         };
+
+         const onTableActionCallback = (res) => {
             switch (res.type) {
                case 'delete': {
-                  this.deleteUser(res.data.id);
+                  deleteUser(res.data.id);
                }
                   break;
                case 'show': {
-                  this.$router.push({name: 'showUser', params: {id: res.data.id}})
+                  router.push({name: 'showUser', params: {id: res.data.id}})
                }
                   break;
                case 'edit': {
-                  this.$router.push({name: 'editUser', params: {id: res.data.id}})
+                  router.push({name: 'editUser', params: {id: res.data.id}})
                }
                   break;
             }
-         } // onTableActionCallback
+         }
+
+         return {pageTitle, isLoading, users, getUsers, deleteUser, onTableActionCallback}
       }
+
    }
 </script>
 
