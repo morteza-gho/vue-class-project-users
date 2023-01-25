@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "username": "gho.morteza",
+      "email": "gho.morteza@gmail.com",
+      "name": "Morteza",
+      "phone": "09134307521",
+      "address": "Morteza's Address is Here",
+      "website": "http://qorbanalizade.ir",
+      "family": "QorbanAlizade",
+      "id": "ce1c4212-2dcd-48f1-b2d3-c2a231bcce6e"
+    },
+    {
+      "username": "ali_alavi",
+      "email": "ali_alavi@gmail.com",
+      "name": "Ali",
+      "family": "Alavi",
+      "phone": "09134307522",
+      "website": "ali_alavi.com",
+      "address": "Kashan",
+      "id": "7cd9c27e-3609-4985-83ce-6d3d156302fc"
+    }
+  ]
+}
