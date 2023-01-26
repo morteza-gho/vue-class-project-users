@@ -71,7 +71,7 @@ onMounted(() => {
    getUsers();
 });
 
-const getUsers = () => {
+/* const getUsers = () => {
    isLoading.value = true;
    axios.get(BASE_URL + '/users').then(res => {
       isLoading.value = false;
@@ -80,6 +80,20 @@ const getUsers = () => {
       isLoading.value = false;
       alert(err.message)
    })
+}; */
+
+const getUsers = async () => {
+   isLoading.value = true;
+   try {
+      const { status, data } = await axios.get(BASE_URL + '/users');
+      if (status == 200) {
+         isLoading.value = false;
+         users.value = data;
+      }
+   } catch (err) {
+      $toast.error(err.message)
+      isLoading.value = false;
+   }
 };
 
 const deleteUser = (id) => {
