@@ -12,19 +12,35 @@
    </div>
 </template>
 
-<script>
-   export default {
-      name: "TableActions",
-      props: {
-         data: Object
-      },
-      emits: ['table-action-callback'],
-      methods: {
-         onButtonClick(type) {
-            this.$emit('table-action-callback', {data: this.data, type})
-         }
+<script setup>
+import { defineProps, defineEmits } from "vue";
+
+/* export default {
+   name: "TableActions",
+   props: {
+      data: Object
+   },
+   emits: ['table-action-callback'],
+   setup(props, {emit}) {
+
+      const onButtonClick = (type) => {
+         emit('table-action-callback', {data: props.data, type})
       }
-   }
+
+      return {onButtonClick}
+   },
+} */
+
+const props = defineProps({
+   data: Object
+});
+
+const emits = defineEmits(['table-action-callback']);
+
+const onButtonClick = (type) => {
+   emits('table-action-callback', { data: props.data, type })
+}
+
 </script>
 
 <style scoped>
